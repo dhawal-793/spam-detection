@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const BASE_URL=import.meta.VITE_HOST
+const BASE_URL=import.meta.env.VITE_HOST
 
 function App() {
   const [message, setMessage] = useState('');
@@ -25,6 +25,7 @@ function App() {
       data: bodyContent,
     }
     try {
+      console.log(reqOptions.url);
       let response = await axios.request(reqOptions);
       console.log(response.data);
       console.log(response.data.result);
