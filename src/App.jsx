@@ -7,41 +7,19 @@ function App() {
   const [message, setMessage] = useState('');
   const [result, setResult] = useState('');
 
-
   const handleInputChange = (e) => {
     setMessage(e.target.value);
   };
   const classifyMessage = async () => {
-
-    let headersList = {
-      "Accept": "*/*",
-      "Content-Type": "application/json"
-    }
-    let bodyContent = JSON.stringify(message);
-    let reqOptions = {
-      url: `${BASE_URL}/predict`,
-      method: "POST",
-      headers: headersList,
-      data: bodyContent,
-    }
     try {
-      console.log(reqOptions.url);
-      let response = await axios.request(reqOptions);
-      console.log(response.data);
+      const response = await axios.post(`${BASE_URL}/predict`, {
+        message: message
+      });
       console.log(response.data.result);
       setResult(response.data.result);
     } catch (error) {
       console.error('Error:', error);
     }
-    // try {
-    //   const response = await axios.post('http://localhost:5000/predict', {
-    //     message: message
-    //   });
-    //   console.log(response.data.result);
-    //   setResult(response.data.result);
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
   };
 
   useEffect(() => {
