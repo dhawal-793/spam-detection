@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const BASE_URL=import.meta.env.VITE_HOST
+const BASE_URL = import.meta.env.VITE_HOST
 
 function App() {
   const [message, setMessage] = useState('');
@@ -12,9 +12,26 @@ function App() {
   };
   const classifyMessage = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}/predict`, {
-        message: message
+      // const response = await axios.post(`${BASE_URL}/api/predict`, {
+      //   message: message
+      // });
+      const headersList = {
+        "Accept": "*/*",
+        "Content-Type": "application/json"
+      }
+
+      const bodyContent = JSON.stringify({
+        message
       });
+
+      let reqOptions = {
+        url: `${BASE_URL}/api/predict`,
+        method: "POST",
+        headers: headersList,
+        data: bodyContent,
+      }
+      console.log(reqOptions.url);
+      const response = await axios.request(reqOptions);
       console.log(response.data.result);
       setResult(response.data.result);
     } catch (error) {
@@ -43,8 +60,8 @@ function App() {
             className='rounded-lg text-[#901ACA] px-8 sm:px-12 py-2 sm:py-3 my-4 bg-black border-2 border-[#901ACA] hover:text-[#A435F0] hover:border-[#A435F0] '
             onClick={classifyMessage}
           >Classify</button>
+          {result && <p className={`${result.toLowerCase() == "spam" ? "text-red-400" : "text-green-500"} font-semibold text-xl sm:text-2xl text-left my-4`}>Result: {result}</p>}
         </div>
-        {result && <p className={`${result.toLowerCase() == "spam" ? "text-red-400" : "text-green-500"} font-semibold text-xl sm:text-2xl text-left my-4`}>Result: {result}</p>}
       </div>
     </div>
   )
