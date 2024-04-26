@@ -59,7 +59,7 @@ function App() {
   return (
     <div className='min-h-screen hauto w-full bg-black'>
       <div className='max-w-screen-xl mx-auto px-5 py-8'>
-        <h1 className='text-3xl sm:text-5xl text-[#A435F0] font-bold text-center mb-20'>Spam Classifier</h1>
+        <h1 className='text-3xl sm:text-5xl text-[#A435F0] font-bold text-center mb-20'>Spam Detector</h1>
         <div className='w-full max-w-[30rem] mx-auto sm:max-w-screen-md sm:px-16 md:px-20'>
           <form onSubmit={handleSubmit}>
             <div>
