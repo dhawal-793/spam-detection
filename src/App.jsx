@@ -132,7 +132,7 @@ const DisplayResult = (props) => {
   const { result } = props
   return (
     <>
-      {result && <p className={`${result.toLowerCase() == "spam" ? "text-red-500" : "text-green-500"} font-semibold text-xl sm:text-2xl text-left my-4`}>{result}</p>}
+      {result && <p className={`${result.toLowerCase() == "Spam" ? "text-red-500" : "text-green-500"} font-semibold text-xl sm:text-2xl text-left my-4`}>{result}</p>}
     </>
   )
 }
