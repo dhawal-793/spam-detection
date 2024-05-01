@@ -70,7 +70,7 @@ function App() {
       const response = await axios.request(reqOptions);
       const prefix = spamType == "email" ? `Above Email is` : "Above Message is"
       // modifiedResult = prefix +response.data.result 
-      setResult(prefix + response.data.result);
+      setResult(`${prefix} ${response.data.result} ${spamType}`);
     } catch (error) {
       console.error('Error:', error);
     } finally {
