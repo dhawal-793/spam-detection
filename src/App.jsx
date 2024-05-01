@@ -4,8 +4,9 @@ import axios from 'axios';
 const BASE_URL = import.meta.env.VITE_HOST
 
 function App() {
+  const initial_output = { message: "", type: "" }
   const [message, setMessage] = useState('');
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState(initial_output);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [typeError, setTypeError] = useState("")
@@ -13,14 +14,14 @@ function App() {
 
   const handleChange = (e) => {
     setMessage(e.target.value)
-    setResult("");
+    setResult(initial_output);
     setError("");
   }
 
   const handleTypeChange = (e) => {
     setSpamType(e.target.value)
     setMessage("")
-    setResult("")
+    setResult(initial_output)
     setError("")
     setTypeError("")
   }
@@ -28,7 +29,7 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setResult("");
+      setResult(initial_output);
       setLoading(true)
       // const response = await axios.post(`${BASE_URL}/api/predict`, {
       //   message: message
@@ -70,7 +71,7 @@ function App() {
       const response = await axios.request(reqOptions);
       const prefix = spamType == "email" ? `Above Email is` : "Above Message is"
       // modifiedResult = prefix +response.data.result 
-      setResult(`${prefix} ${response.data.result} ${spamType}`);
+      setResult({ message: `${prefix} ${response.data.result} ${spamType}`, type: response.data.result });
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -106,7 +107,7 @@ function App() {
             </div>
             <div>
               <textarea
-                disabled={loading}
+                disabled={loading || spamType == "choose what to predict"}
                 className='w-full min-h-[10rem] h-auto bg-gray-900 rounded-xl text-gray-200  placeholder:text-gray-500 py-5 px-3 font-semibold outline outline-[3px] outline-gray-500 focus:border-0 focus:outline-[3px] focus:outline-[#A435F0] disabled:opacity-80 capitalize'
                 value={message}
                 onChange={handleChange}
@@ -128,11 +129,12 @@ function App() {
 }
 
 
-const DisplayResult = (props) => {
-  const { result } = props
+const DisplayResult = ({ result }) => {
+  const { message, type } = result;
+  console.log(message, type);
   return (
     <>
-      {result && <p className={`${result.toLowerCase() == "Spam" ? "text-red-500" : "text-green-500"} font-semibold text-xl sm:text-2xl text-left my-4`}>{result}</p>}
+      {result && <p className={`${type.toLowerCase() == "spam" ? "text-red-500" : "text-green-500"} font-semibold text-xl sm:text-2xl text-left my-4`}>{message}</p>}
     </>
   )
 }
